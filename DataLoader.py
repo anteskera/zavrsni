@@ -6,13 +6,14 @@ from os.path import isfile, join
 class DataLoader():
 
     def __init__(self, path):
-        onlyPNG = [path + '/' + f for f in listdir(path) if (isfile(join(path, f)) and f.endswith("10.png"))]
+        onlyPNG = [path + '/' + f for f in listdir(path) if (isfile(join(path, f)) and f.lower().endswith(".png"))]
         self.images = []
-        self.test = []
+        #self.test = []
         for file in onlyPNG:
             img = cv2.imread(file, -1)
-            self.test.append(img)
-            self.images.append(img/4096)
+            #self.test.append(img)
+            print(file)
+            self.images.append(img)
 
 
 

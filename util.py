@@ -48,16 +48,6 @@ def getPixels(image):
     # return the projection matrix, the variance and the mean
     return V, S, mean_X'''
 
-def transformImageWithMatrix(image, matrix):
-    h = image.shape[0]
-    w = image.shape[1]
-    transformedImage = np.zeros((h, w))
-    # loop over the image, pixel by pixel
-    for y in range(0, h):
-        for x in range(0, w):
-            transformedImage[y][x] = np.matmul(image[y][x], matrix)
-    return transformedImage
-
 
 
 def pca(pixels, mean):
@@ -79,6 +69,5 @@ def pca(pixels, mean):
 
     C = np.dot(X.T, X) / (n - 1)
     eigen_vals, eigen_vecs = np.linalg.eig(C)
-    pixels_pca = np.dot(X, eigen_vecs)
+    return eigen_vecs
 
-    return pixels_pca
