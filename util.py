@@ -1,4 +1,5 @@
 from __future__ import division
+from sklearn.decomposition import PCA
 import cv2
 import numpy as np
 import math
@@ -23,7 +24,7 @@ def getPixels(image):
 
     return pixelValues, mean
 
-def pca(X):
+'''def pca(X):
     # Principal Component Analysis
     # input: X, matrix with training data as flattened arrays in rows
     # return: projection matrix (with important dimensions first),
@@ -45,7 +46,7 @@ def pca(X):
     V = V[:num_data]  # only makes sense to return the first num_data
 
     # return the projection matrix, the variance and the mean
-    return V, S, mean_X
+    return V, S, mean_X'''
 
 def transformImageWithMatrix(image, matrix):
     h = image.shape[0]
@@ -59,23 +60,25 @@ def transformImageWithMatrix(image, matrix):
 
 
 
-
-'''def pca(pixels, mean):
+def pca(pixels, mean):
     # Principal Component Analysis
     # input: X, matrix with training data as flattened arrays in rows
     # return: projection matrix (with important dimensions first),
     # variance and mean
 
     # get dimensions
-    num_data = len(pixels)
+
+    X = pixels[0:-1]
+    X = np.stack(X, axis=0)
+
+    n, m = X.shape
 
     # center data
-    for i in range(num_data):
-        if len(pixels[i]) == 3:
-            pixels[i] -= mean
+    for i in range(n):
+        X[i] -= mean
 
-    C = np.dot(pixels.T, pixels) / (num_data - 1)
+    C = np.dot(X.T, X) / (n - 1)
     eigen_vals, eigen_vecs = np.linalg.eig(C)
-    pixels_pca = np.dot(pixels, eigen_vecs)
+    pixels_pca = np.dot(X, eigen_vecs)
 
-    return pixels_pca'''
+    return pixels_pca

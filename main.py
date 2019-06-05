@@ -7,9 +7,9 @@ data = DataLoader("slike")
 for image in data.images:
     pixels, mean = getPixels(image)
 
-    V, S, Average = pca(pixels)
+    pcaMatrix = pca(pixels, mean)
 
-    transformedImage = transformImageWithMatrix(image, V)
+    transformedImage = transformImageWithMatrix(image, pcaMatrix)
     cv2.imshow('transformedImage', transformedImage)
     cv2.imshow('image', image)
     cv2.waitKey(0)
