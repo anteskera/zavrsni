@@ -64,18 +64,10 @@ def pca(pixels):
     n, m = X.shape
     # center data
     mean = np.mean (X, axis=0)
-    mean = [ m.astype('uint16') for m in mean]
+    mean = [m.astype('uint16') for m in mean]
     for i in range(n):
         X[i] -= mean
     C = np.dot(X.T, X) / (n - 1)
     eigen_vals, eigen_vecs = np.linalg.eig(C)
-    return eigen_vecs, mean
+    return eigen_vecs
 
-def transform(image, matrix, mean):
-    transformedImage = np.dot(image, matrix)
-    h, w, d = image.shape
-    for y in range(h):
-        for x in range(w):
-            transformedImage[y][x] += mean
-
-    return transformedImage
