@@ -5,10 +5,11 @@ import cv2
 data = DataLoader("slike")
 counter = 0
 for image in data.images:
-    pixels, mean = getPixels(image)
+    pixels = getPixels(image)
 
-    pcaMatrix = pca(pixels, mean)
+    pcaMatrix, mean = pca(pixels)
 
-    transformedImage = np.dot(image, pcaMatrix)
+    transformedImage = transform(image, pcaMatrix, mean)
+
     counter += 1
-    cv2.imwrite("./slike/transformed" + counter + ".png", transformedImage)
+    cv2.imwrite("./slike/rezultati/transformed" + str(counter) + ".png", transformedImage)

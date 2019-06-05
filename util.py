@@ -22,7 +22,7 @@ def getPixels(image):
 
     pixelValues = np.array([pixel[1] for pixel in selectedPixels])
 
-    return pixelValues, mean
+    return pixelValues
 
 '''def pca(X):
     # Principal Component Analysis
@@ -50,7 +50,7 @@ def getPixels(image):
 
 
 
-def pca(pixels, mean):
+def pca(pixels):
     # Principal Component Analysis
     # input: X, matrix with training data as flattened arrays in rows
     # return: projection matrix (with important dimensions first),
@@ -62,12 +62,20 @@ def pca(pixels, mean):
     X = np.stack(X, axis=0)
 
     n, m = X.shape
-
     # center data
+    mean = np.mean (X, axis=0)
+    mean = [ m.astype('uint16') for m in mean]
     for i in range(n):
         X[i] -= mean
-
     C = np.dot(X.T, X) / (n - 1)
     eigen_vals, eigen_vecs = np.linalg.eig(C)
-    return eigen_vecs
+    return eigen_vecs, mean
 
+def transform(image, matrix, mean):
+    transformedImage = np.dot(image, matrix)
+    h, w, d = image.shape
+    for y in range(h):
+        for x in range(w):
+            transformedImage[y][x] += mean
+
+    return transformedImage

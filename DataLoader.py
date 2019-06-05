@@ -12,7 +12,6 @@ class DataLoader():
         for file in onlyPNG:
             img = cv2.imread(file, -1)
             #self.test.append(img)
-            print(file)
             self.images.append(img)
 
 
